@@ -13,8 +13,7 @@ export async function middleware(request: NextRequest) {
 
 	if (
 		request.nextUrl.pathname.startsWith("/profile") ||
-		request.nextUrl.pathname.startsWith("/writer") ||
-		request.nextUrl.pathname.startsWith("/admin")
+		request.nextUrl.pathname.startsWith("/writer")
 	) {
 		if (!token) {
 			return NextResponse.redirect(new URL("/auth", request.url));
@@ -23,13 +22,6 @@ export async function middleware(request: NextRequest) {
 		try {
 			const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 			const { payload } = await jwtVerify(token, secret);
-
-			if (
-				request.nextUrl.pathname.startsWith("/admin") &&
-				payload.role !== "ADMIN"
-			) {
-				return NextResponse.redirect(new URL("/auth", request.url));
-			}
 
 			if (
 				request.nextUrl.pathname.startsWith("/writer") &&
@@ -48,5 +40,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/profile/:path*", "/writer/:path*", "/admin/:path*"],
+	matcher: ["/profile/:path*", "/writer/:path*"],
 };

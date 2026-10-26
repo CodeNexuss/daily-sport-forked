@@ -36,5 +36,5 @@
 		"app/(portal)/layout.jsx",
 		"prisma/seed.js"
 	],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "admin"]
 }
